@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +13,6 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', [UserController::class,'index']);
-Route::get('/add',[UserController::class,'add']);
-Route::post('/processAdd',[UserController::class,'processAdd'])->name('processAddUser');
-Route::get('/edit/{id}',[UserController::class,'edit']);
-Route::post('/processEdit',[UserController::class,'processEdit'])->name('processEditUser');
-Route::get('/delete/{id}',[UserController::class,'delete'])->name('processDeleteUser');
-
+Route::get('/', function () {
+    return view('welcome');
+});
