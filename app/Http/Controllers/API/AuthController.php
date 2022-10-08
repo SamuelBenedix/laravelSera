@@ -20,7 +20,6 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
-
     /**
      * @OA\Post(
      *     path = "/api/auth/register",

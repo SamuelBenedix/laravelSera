@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\MonggoCrudController;
+use App\Http\Controllers\filterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [MonggoCrudController::class, 'index'])->name('home');
+Route::get('/', [filterController::class, 'index'])->name('home');

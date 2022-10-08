@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Firebase;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Kreait\Firebase\Contract\Database;
 
 class ContactController extends Controller
@@ -97,6 +98,16 @@ class ContactController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make(request()->all(), [
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 422);
+        }
+
         $customer = [
             'name' => $request->name,
             'phone' => $request->phone,
@@ -149,8 +160,6 @@ class ContactController extends Controller
         }
     }
 
-
-
     /**
      * @OA\Put(
      *     path="/api/contact/{uid}",
@@ -202,11 +211,22 @@ class ContactController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make(request()->all(), [
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 422);
+        }
+
         $customer = [
             'name' => $request->name,
             'phone' => $request->phone,
             'email' => $request->email,
         ];
+
         $res = $this->database->getReference($this->tablename . '/' . $id)->update($customer);
         if ($res) {
             return response()->json([

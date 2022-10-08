@@ -5,10 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use Illuminate\Http\Request;
-
-
-
-
+use Illuminate\Support\Facades\Validator;
 
 class APIMonggoCrudController extends Controller
 {
@@ -93,6 +90,16 @@ class APIMonggoCrudController extends Controller
      */
     public function store(Request $request)
     {
+
+        $validator = Validator::make(request()->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:customers',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 422);
+        }
+
         $customer = Customer::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -193,6 +200,15 @@ class APIMonggoCrudController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
+        $validator = Validator::make(request()->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:customers',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 422);
+        }
+
         $customer->name = $request->name;
         $customer->email  = $request->email;
         $customer->save();
