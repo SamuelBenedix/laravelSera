@@ -761,46 +761,6 @@
                     }
                 }
             }
-        },
-        "/": {
-            "get": {
-                "tags": [
-                    "Filter"
-                ],
-                "summary": "Get list of Customer",
-                "operationId": "aac1b3faef63a925ad9db189a98e7352",
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "-NDn1_FMcIFJ8Tbl3Xlc": {
-                                                        "type": "string",
-                                                        "format": "array",
-                                                        "example": {
-                                                            "email": "example@example.com",
-                                                            "name": "example",
-                                                            "phone": "088812321321"
-                                                        }
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }

@@ -83,7 +83,7 @@ class AuthController extends Controller
         ]);
 
         if (!$user) {
-            return response()->json(['message' => 'Register Failed']);
+            return response()->json(['message' => 'Register Failed'], 401);
         }
 
         return response()->json(['message' => 'Register Successfuly']);
