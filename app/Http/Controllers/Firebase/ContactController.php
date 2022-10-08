@@ -1,22 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Firebase;
 
 use App\Http\Controllers\Controller;
-use App\Models\Customer;
 use Illuminate\Http\Request;
+use Kreait\Firebase\Contract\Database;
 
-
-
-
-
-class APIMonggoCrudController extends Controller
+class ContactController extends Controller
 {
+    public function __construct(Database $database)
+    {
+        $this->database = $database;
+        $this->tablename = 'contacts';
+    }
+
     /**
      * @OA\Get(
-     *     path = "/api/customer",
-     *     tags = {"Customer"},
-     *     summary = "Get list of Customer",
+     *     path = "/api/contact",
+     *     tags = {"Contact"},
+     *     summary = "Get list of Contact",
      *     @OA\Response(
      *          response = 200,
      *          description = "success",
@@ -26,32 +28,34 @@ class APIMonggoCrudController extends Controller
      *                 property="data",
      *                 @OA\Items(
      *                     type="object",
-     *                  @OA\Property(property="_id",type="string",example="633f78c918ff2f00d70dab58"),
-     *              @OA\Property(property="name",type="string",example="example"),
-     *              @OA\Property(property="email",type="string",example="example@example.com"),
-     *              @OA\Property(property="created_at",type="string",example="2022-10-07T00:54:33.000000Z"),
-     *              @OA\Property(property="updated_at",type="string",example="2022-10-07T00:54:33.000000Z"),
+     *                      @OA\Property(property="-NDn1_FMcIFJ8Tbl3Xlc", type="string", format="array",
+     *                      example={
+     *                              "email":"example@example.com",
+     *                              "name":"example",
+     *                              "phone":"088812321321"
+     *                      }
+     *                   )
      *                 )
      *             )
      *         )
-
      *     )
      * )
      */
 
     public function index()
     {
-        $customer = Customer::all();
+        $ref = $this->database->getReference($this->tablename)->getValue();
         return response()->json([
-            'data' => $customer
+            'data' => $ref
         ]);
     }
 
+
     /**
      * @OA\Post(
-     *     path="/api/customer",
-     *     tags={"Customer"},
-     *     summary="Add Customer",
+     *     path="/api/contact",
+     *     tags={"Contact"},
+     *     summary="Add Contact",
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
@@ -68,8 +72,9 @@ class APIMonggoCrudController extends Controller
      *                      )
      *                 ),
      *                 example={
-     *                     "title":"example title",
-     *                     "email":"example@example.com"
+     *                     "email":"example@example.com",
+     *                     "name":"example",
+     *                     "phone":"12324123"
      *                }
      *             )
      *         )
@@ -80,37 +85,41 @@ class APIMonggoCrudController extends Controller
      *           @OA\JsonContent(
      *                      @OA\Property(property="data", type="string", format="array",
      *                      example={
-     *                              "_id":"633f78c918ff2f00d70dab58",
      *                              "name":"example",
      *                              "email":"example@example.com",
-     *                              "created_at":"2022-10-07T00:54:33.000000Z",
-     *                              "created_at":"2022-10-07T00:54:33.000000Z"
+     *                              "phone":"12324123",
      *                      }
      *              )
      *          )
      *     )
      * )
      */
+
     public function store(Request $request)
     {
-        $customer = Customer::create([
+        $customer = [
             'name' => $request->name,
+            'phone' => $request->phone,
             'email' => $request->email,
-        ]);
+        ];
 
-        return response()->json([
-            'data' => $customer
-        ]);
+        $ref = $this->database->getReference($this->tablename)->push($customer);
+
+        if ($ref) {
+            return response()->json([
+                'data' => $customer
+            ]);
+        }
     }
 
     /**
-     * Get Detail Customer
+     * Get Detail Contact
      * @OA\Get (
-     *     path="/api/customer//{_id}",
-     *     tags={"Customer"},
+     *     path="/api/customer/contact/{uid}",
+     *     tags={"Contact"},
      *     @OA\Parameter(
      *         in="path",
-     *         name="_id",
+     *         name="uid",
      *         required=true,
      *         @OA\Schema(type="string")
      *     ),
@@ -120,11 +129,9 @@ class APIMonggoCrudController extends Controller
      *           @OA\JsonContent(
      *                      @OA\Property(property="data", type="string", format="array",
      *                      example={
-     *                              "_id":"633f78c918ff2f00d70dab58",
      *                              "name":"example",
      *                              "email":"example@example.com",
-     *                              "created_at":"2022-10-07T00:54:33.000000Z",
-     *                              "created_at":"2022-10-07T00:54:33.000000Z"
+     *                              "phone":"12324123",
      *                      }
      *              )
      *          )
@@ -132,22 +139,26 @@ class APIMonggoCrudController extends Controller
      * )
      */
 
-    public function show(Customer $customer)
+    public function show($id)
     {
-        return  response()->json([
-            'data' => $customer
-        ]);
+        $ref = $this->database->getReference($this->tablename)->getChild($id)->getValue();
+        if ($ref) {
+            return response()->json([
+                'data' => $ref
+            ]);
+        }
     }
+
 
 
     /**
      * @OA\Put(
-     *     path = "/api/customer/{_id}",
-     *     tags = {"Customer"},
-     *     summary = "Update Customer",
+     *     path="/api/contact/{uid}",
+     *     tags={"Contact"},
+     *     summary="Update Contact",
      *     @OA\Parameter(
      *         in="path",
-     *         name="_id",
+     *         name="uid",
      *         required=true,
      *         @OA\Schema(type="string")
      *     ),
@@ -167,8 +178,9 @@ class APIMonggoCrudController extends Controller
      *                      )
      *                 ),
      *                 example={
-     *                     "title":"example title",
-     *                     "email":"example@example.com"
+     *                     "email":"example@example.com",
+     *                     "name":"example",
+     *                     "phone":"12324123"
      *                }
      *             )
      *         )
@@ -179,34 +191,35 @@ class APIMonggoCrudController extends Controller
      *           @OA\JsonContent(
      *                      @OA\Property(property="data", type="string", format="array",
      *                      example={
-     *                              "_id":"633f78c918ff2f00d70dab58",
      *                              "name":"example",
      *                              "email":"example@example.com",
-     *                              "created_at":"2022-10-07T00:54:33.000000Z",
-     *                              "created_at":"2022-10-07T00:54:33.000000Z"
+     *                              "phone":"12324123",
      *                      }
      *              )
      *          )
-
      *     )
      * )
      */
-    public function update(Request $request, Customer $customer)
+    public function update(Request $request, $id)
     {
-        $customer->name = $request->name;
-        $customer->email  = $request->email;
-        $customer->save();
-
-        return response()->json([
-            'data' => $customer
-        ]);
+        $customer = [
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+        ];
+        $res = $this->database->getReference($this->tablename . '/' . $id)->update($customer);
+        if ($res) {
+            return response()->json([
+                'data' => $customer
+            ]);
+        }
     }
 
     /**
      * @OA\Delete(
-     *     path = "/api/customer/{_id}",
-     *     tags = {"Customer"},
-     *     summary = "Delete Customer",
+     *     path = "/api/contact/{_id}",
+     *     tags = {"Contact"},
+     *     summary = "Delete Contact",
      *     @OA\Parameter(
      *         in="path",
      *         name="_id",
@@ -215,19 +228,20 @@ class APIMonggoCrudController extends Controller
      *     ),
      *     @OA\Response(
      *          response = 200,
-     *          description = "success",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message",type="string",example="Customer data deleted successfully"),
+     *          description = "Contact data deleted successfully",
+     *         @OA\JsonContent(
+     *              @OA\Property(property="message",type="string",example="Contact data deleted successfully"),
      *              ),
      *         )
      *     )
      * )
      */
-    public function destroy(Customer $customer)
+    public function destroy($id)
     {
-        $customer->delete();
+        $this->database->getReference($this->tablename . '/' . $id)->remove();
+
         return response()->json([
-            'message' => 'Customer data deleted successfully'
+            'message' => 'Contact data deleted successfully'
         ]);
     }
 }

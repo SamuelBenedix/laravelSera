@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\APIMonggoCrudController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\Firebase\ContactController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,17 +22,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group([
-
     'middleware' => 'api',
     'prefix' => 'auth'
-
-], function ($router) {
+], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('register', [AuthController::class, 'register']);
-
     Route::post('me', [AuthController::class, 'me']);
 });
 
 Route::resource('customer', APIMonggoCrudController::class)->except(['create', 'edit']);
+
+Route::resource('contact', ContactController::class)->except(['create', 'edit']);

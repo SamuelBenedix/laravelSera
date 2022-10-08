@@ -98,25 +98,15 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "_id": {
+                                        "data": {
                                             "type": "string",
-                                            "example": "633f78c918ff2f00d70dab58"
-                                        },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "example"
-                                        },
-                                        "email": {
-                                            "type": "string",
-                                            "example": "example@example.com"
-                                        },
-                                        "created_at": {
-                                            "type": "string",
-                                            "example": "2022-10-07T00:54:33.000000Z"
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "example": "2022-10-07T00:54:33.000000Z"
+                                            "format": "array",
+                                            "example": {
+                                                "_id": "633f78c918ff2f00d70dab58",
+                                                "name": "example",
+                                                "email": "example@example.com",
+                                                "created_at": "2022-10-07T00:54:33.000000Z"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -151,25 +141,15 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "_id": {
+                                        "data": {
                                             "type": "string",
-                                            "example": "633f78c918ff2f00d70dab58"
-                                        },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "example"
-                                        },
-                                        "email": {
-                                            "type": "string",
-                                            "example": "example@example.com"
-                                        },
-                                        "created_at": {
-                                            "type": "string",
-                                            "example": "2022-10-07T00:54:33.000000Z"
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "example": "2022-10-07T00:54:33.000000Z"
+                                            "format": "array",
+                                            "example": {
+                                                "_id": "633f78c918ff2f00d70dab58",
+                                                "name": "example",
+                                                "email": "example@example.com",
+                                                "created_at": "2022-10-07T00:54:33.000000Z"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -231,31 +211,13 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "_id": {
-                                                        "type": "string",
-                                                        "example": "633f78c918ff2f00d70dab58"
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "example"
-                                                    },
-                                                    "email": {
-                                                        "type": "string",
-                                                        "example": "example@example.com"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "example": "2022-10-07T00:54:33.000000Z"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2022-10-07T00:54:33.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
+                                            "type": "string",
+                                            "format": "array",
+                                            "example": {
+                                                "_id": "633f78c918ff2f00d70dab58",
+                                                "name": "example",
+                                                "email": "example@example.com",
+                                                "created_at": "2022-10-07T00:54:33.000000Z"
                                             }
                                         }
                                     },
@@ -284,7 +246,518 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "success"
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Customer data deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register",
+                "operationId": "eb3623f9bcd09a1dacbefaac07aed1bb",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "password": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "title": "example title",
+                                    "email": "example@example.com",
+                                    "password": 123456
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Register Successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "messages": {
+                                            "type": "string",
+                                            "example": "Register Successfuly"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login",
+                "operationId": "f77777235d676b651c9465807d8f9485",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "password": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "email": "example@example.com",
+                                    "password": 123456
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login Successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2NjUxMDkzNDcsImV4cCI6MTY2NTExMjk0NywibmJmIjoxNjY1MTA5MzQ3LCJqdGkiOiJXbFR1U1dTOGZxSTVFWDFYIiwic3ViIjoiNjMzZjg0Mzg0YmM0ZGY3MjE0MDJjYzI0IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.c9tq4s-w93IH5ovWJM1mwcLBn9Xpi-zGIQRevYQMwAA"
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "bearer"
+                                        },
+                                        "expired": {
+                                            "type": "integer",
+                                            "example": 3600
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/me/{token}": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get Login Akun Detail",
+                "operationId": "b292eb5d36317414600ee27d4a05d92f",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get Data Successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "633f78c918ff2f00d70dab58"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "example"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "example@example.com"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2022-10-07T00:54:33.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2022-10-07T00:54:33.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/logout/{token}": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout Account",
+                "operationId": "3ba5df9341c6b73a3bec6a16a2a9b094",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Register Successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "messages": {
+                                            "type": "string",
+                                            "example": "Successfully logged out"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/refresh/{token}": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Merefresh Account",
+                "operationId": "dac470cc966b1339cd0de6d2a9d11ba1",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Refresh Successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2NjUxMDkzNDcsImV4cCI6MTY2NTExMjk0NywibmJmIjoxNjY1MTA5MzQ3LCJqdGkiOiJXbFR1U1dTOGZxSTVFWDFYIiwic3ViIjoiNjMzZjg0Mzg0YmM0ZGY3MjE0MDJjYzI0IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.c9tq4s-w93IH5ovWJM1mwcLBn9Xpi-zGIQRevYQMwAA"
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "bearer"
+                                        },
+                                        "expired": {
+                                            "type": "integer",
+                                            "example": 3600
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contact": {
+            "get": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Get list of Contact",
+                "operationId": "64e740422f8c163296d8a6ea941e706c",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "-NDn1_FMcIFJ8Tbl3Xlc": {
+                                                        "type": "string",
+                                                        "format": "array",
+                                                        "example": {
+                                                            "email": "example@example.com",
+                                                            "name": "example",
+                                                            "phone": "088812321321"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Add Contact",
+                "operationId": "303f6bf6aec91b25ee8229e29280f716",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "title": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "email": "example@example.com",
+                                    "name": "example",
+                                    "phone": "12324123"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "format": "array",
+                                            "example": {
+                                                "name": "example",
+                                                "email": "example@example.com",
+                                                "phone": "12324123"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/customer/contact/{uid}": {
+            "get": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Get Detail Contact",
+                "operationId": "20d3a3f7f69021c7ad226ac3e4fb1c0a",
+                "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "format": "array",
+                                            "example": {
+                                                "name": "example",
+                                                "email": "example@example.com",
+                                                "phone": "12324123"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contact/{uid}": {
+            "put": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Update Contact",
+                "operationId": "d607daeb30f42a35b2c00dbfd28d12a9",
+                "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "title": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "email": "example@example.com",
+                                    "name": "example",
+                                    "phone": "12324123"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "format": "array",
+                                            "example": {
+                                                "name": "example",
+                                                "email": "example@example.com",
+                                                "phone": "12324123"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contact/{_id}": {
+            "delete": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Delete Contact",
+                "operationId": "93a69077e681f05908fa874b8a930832",
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Contact data deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Contact data deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
